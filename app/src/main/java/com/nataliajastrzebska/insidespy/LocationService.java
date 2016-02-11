@@ -29,8 +29,8 @@ public class LocationService extends Service {
     }
 
     private String getUrl(){
-        String base = "https://www.google.com/maps/preview/@";
-        return base + lat + "," + lon + ",15z";
+        String base = "http://maps.google.com/maps?q=loc:";
+        return base + lat + "," + lon;
     }
 
     @Override

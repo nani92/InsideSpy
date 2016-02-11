@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:initialLayout="@layout/send_get_gps_widget"
     android:minHeight="72dp"
-    android:minWidth="300dp"
+    android:minWidth="72dp"
     android:updatePeriodMillis="300000" >
 
 </appwidget-provider> 

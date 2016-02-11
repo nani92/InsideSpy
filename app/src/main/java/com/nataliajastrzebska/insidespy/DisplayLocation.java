@@ -15,7 +15,8 @@ import java.net.URLConnection;
 public class DisplayLocation {
 
     public void count(int cid, int lac) {
-        String urlmmap = "http://www.google.com/glm/mmap";
+
+        String urlmmap = "http://maps.google.com/maps?q=loc:";
 
         try {
             URL url = new URL(urlmmap);

