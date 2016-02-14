@@ -1,8 +1,10 @@
-package com.nataliajastrzebska.insidespy;
+package com.nataliajastrzebska.insidespy.Services;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+
+import com.nataliajastrzebska.insidespy.Code.CodeGet;
 
 /**
  * Created by nataliajastrzebska on 31/01/16.
@@ -13,9 +15,9 @@ public class LocationBtsService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
         getLocationVariables(intent);
         displayLocation();
+
         return Service.START_NOT_STICKY;
     }
 
@@ -26,23 +28,13 @@ public class LocationBtsService extends Service {
     }
 
     private void getLocationVariables(Intent intent){
-        cid = intent.getExtras().getInt("cid");
-        lac = intent.getExtras().getInt("lac");
-        mnc = intent.getExtras().getInt("mnc");
-        mcc = intent.getExtras().getInt("mcc");
+        cid = intent.getExtras().getInt(CodeGet.EXTRA_CID);
+        lac = intent.getExtras().getInt(CodeGet.EXTRA_LAC);
+        mnc = intent.getExtras().getInt(CodeGet.EXTRA_MNC);
+        mcc = intent.getExtras().getInt(CodeGet.EXTRA_MCC);
     }
 
     private void displayLocation(){
-        final DisplayLocation displayLocation = new DisplayLocation();
-        Thread locationThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    displayLocation.count(cid, lac);
-                } catch(Exception e){
-                }
-            }
-        });
-        locationThread.run();
+
     }
 }

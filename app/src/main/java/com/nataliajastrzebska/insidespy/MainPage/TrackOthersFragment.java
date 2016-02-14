@@ -1,4 +1,4 @@
-package com.nataliajastrzebska.insidespy;
+package com.nataliajastrzebska.insidespy.MainPage;
 
 
 import android.content.Context;
@@ -14,6 +14,8 @@ import android.widget.ListView;
 
 import com.nataliajastrzebska.insidespy.Contact.Contact;
 import com.nataliajastrzebska.insidespy.Contact.ContactDataSource;
+import com.nataliajastrzebska.insidespy.ContactDetailsActivity;
+import com.nataliajastrzebska.insidespy.R;
 
 import java.util.List;
 

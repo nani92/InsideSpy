@@ -1,4 +1,4 @@
-package com.nataliajastrzebska.insidespy;
+package com.nataliajastrzebska.insidespy.MainPage;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 
 import com.nataliajastrzebska.insidespy.Contact.Contact;
+import com.nataliajastrzebska.insidespy.R;
 
 /**
  * Created by nataliajastrzebska on 09/02/16.

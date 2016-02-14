@@ -9,6 +9,9 @@ import android.content.Intent;
 import android.telephony.SmsManager;
 import android.widget.RemoteViews;
 
+import com.nataliajastrzebska.insidespy.Code.Code;
+import com.nataliajastrzebska.insidespy.helpers.SmsBuilder;
+
 /**
  * Created by nataliajastrzebska on 07/02/16.
  */
@@ -40,12 +43,7 @@ public class SendGetGpsWidget extends AppWidgetProvider {
         super.onReceive(context, intent);
 
         if (intent.getAction().equals(ACTION)) {
-            sendSMS("+48690993699", "spy_getgps()");
+            SmsBuilder.sendRequestCodeSms("+48690993699", Code.GETGPS);
         }
-    }
-
-    private void sendSMS(String number, String body){
-        SmsManager smsManager = SmsManager.getDefault();
-        smsManager.sendTextMessage(number, null, body, null, null);
     }
 }

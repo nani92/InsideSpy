@@ -12,4 +12,5 @@
     <string name="commands">Commands</string>
     <string name="number_to_track">Number to track</string>
     <string name="number_to_spy">Number can spy on me</string>
+    <string name="no_location_data">No location data</string>
 </resources>

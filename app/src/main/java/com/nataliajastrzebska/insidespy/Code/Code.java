@@ -1,4 +1,4 @@
-package com.nataliajastrzebska.insidespy;
+package com.nataliajastrzebska.insidespy.Code;
 
 /**
  * Created by nataliajastrzebska on 31/01/16.

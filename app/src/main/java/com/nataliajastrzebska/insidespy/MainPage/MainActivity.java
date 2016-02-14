@@ -1,16 +1,18 @@
-package com.nataliajastrzebska.insidespy;
+package com.nataliajastrzebska.insidespy.MainPage;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+
 import com.nataliajastrzebska.insidespy.Contact.Contact;
 import com.nataliajastrzebska.insidespy.Contact.ContactDataSource;
+import com.nataliajastrzebska.insidespy.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SmsActivity extends AppCompatActivity implements AddNumberDialogFragment.AddNumberInterface {
+public class MainActivity extends AppCompatActivity implements AddNumberDialogFragment.AddNumberInterface {
 
     MainPagerAdapter mainPagerAdapter;
 

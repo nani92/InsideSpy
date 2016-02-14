@@ -3,31 +3,29 @@ package com.nataliajastrzebska.insidespy;
 /**
  * Created by nataliajastrzebska on 29/01/16.
  */
-import android.Manifest;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
-import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
-import android.telephony.TelephonyManager;
-import android.telephony.gsm.GsmCellLocation;
-
+import com.nataliajastrzebska.insidespy.Code.AnsGet;
+import com.nataliajastrzebska.insidespy.Code.AnsGetGps;
+import com.nataliajastrzebska.insidespy.Code.Code;
+import com.nataliajastrzebska.insidespy.Code.CodeGet;
+import com.nataliajastrzebska.insidespy.Code.CodeGetGps;
 import com.nataliajastrzebska.insidespy.Contact.Contact;
 import com.nataliajastrzebska.insidespy.Contact.ContactDataSource;
+import com.nataliajastrzebska.insidespy.helpers.SmsBuilder;
 
 import java.util.List;
 
 
-public class SmsBroadcastReceiver extends BroadcastReceiver implements LocationListener {
+public class SmsBroadcastReceiver extends BroadcastReceiver {
 
-    public static final String SMS_BUNDLE = "pdus";
-    String CODE_START = "spy_";
-    String ANSWER_START = "spyAns_";
+    static final String SMS_BUNDLE = "pdus";
+
     ContactDataSource contactDataSource;
     List<Contact> contactList;
 
@@ -36,20 +34,20 @@ public class SmsBroadcastReceiver extends BroadcastReceiver implements LocationL
 
     public void onReceive(Context context, Intent intent) {
         this.context = context;
-        Bundle intentExtras = intent.getExtras();
-        if (intentExtras != null) {
-            Object[] sms = (Object[]) intentExtras.get(SMS_BUNDLE);
-            for (int i = 0; i < sms.length; ++i) {
-                populateList();
 
-                SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) sms[i]);
+        if (doExtrasExist(intent.getExtras())) {
+
+            populateAllowedToSpyNumbersList();
+            Object[] sms = getSmsObjectFromExtras(intent.getExtras());
+
+            for (int i = 0; i < sms.length; ++i) {
+                SmsMessage smsMessage = getSmsMessageFromBundle(i, intent.getExtras(), sms);
 
                 String smsBody = smsMessage.getMessageBody().toString();
                 number = smsMessage.getOriginatingAddress();
 
-                if(isNumberAllowedToSpy(number) && isMessageCode(smsBody)){
-                    String answer = ANSWER_START + proceedWithRequestCodeToGetAnswerContent(Code.fromString(smsBody.substring(4)));
-                    sendSMS(number, answer);
+                if(isNumberAllowedToSpy(number) && isMessageRequestCode(smsBody)){
+                    proceedWithRequestCodeToGetAnswerContent(Code.fromString(smsBody.substring(SmsBuilder.CODE_START.length())), number);
                 }
                 else if (isMessageAnswer(smsBody)){
                     proceedWithAnswer(smsBody);
@@ -59,11 +57,34 @@ public class SmsBroadcastReceiver extends BroadcastReceiver implements LocationL
         }
     }
 
-    private void populateList() {
+    private boolean doExtrasExist(Bundle bundle) {
+        return bundle != null;
+    }
+
+    private void populateAllowedToSpyNumbersList() {
         contactDataSource = new ContactDataSource(context);
         contactDataSource.open();
         contactList = contactDataSource.getAllContacts();
         contactDataSource.close();
+    }
+
+    private Object[] getSmsObjectFromExtras(Bundle bundle) {
+        return  (Object[]) bundle.get(SMS_BUNDLE);
+    }
+
+    private String getFormat(Bundle bundle) {
+        return bundle.getString("format");
+    }
+
+    private SmsMessage getSmsMessageFromBundle(int iterator, Bundle bundle, Object[] sms) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            String format = getFormat(bundle);
+
+            return SmsMessage.createFromPdu((byte[]) sms[iterator], format);
+        }
+
+        return SmsMessage.createFromPdu((byte[]) sms[iterator]);
     }
 
     private Boolean isNumberAllowedToSpy(String number){
@@ -75,177 +96,42 @@ public class SmsBroadcastReceiver extends BroadcastReceiver implements LocationL
         return false;
     }
 
-    private Boolean isMessageCode(String message){
-        if (message.length() > 5 && message.substring(0,4).equals(CODE_START))
+    private Boolean isMessageRequestCode(String message){
+        if (message.startsWith(SmsBuilder.CODE_START))
             return true;
         return false;
     }
 
     private Boolean isMessageAnswer(String message){
-        if (message.length() > 8 && message.substring(0,7).equals(ANSWER_START))
+        if (message.startsWith(SmsBuilder.ANSWER_START))
             return true;
         return false;
     }
 
-    private String proceedWithRequestCodeToGetAnswerContent(Code code){
+    private void proceedWithRequestCodeToGetAnswerContent(Code code, String number){
         switch (code){
             case GET:
-                return code.toString() + "_" + proceedBtsGetLocation();
+                new CodeGet(context, number);
+                break;
             case GETGPS:
-                return proceedGetLocation();
-            default:
-                return "";
-        }
-    }
-
-    LocationManager locationManager;
-    private String proceedGetLocation() {
-
-        locationManager = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
-
-        if (android.support.v4.content.ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                android.support.v4.content.ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return null;
-        }
-        Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-
-        if (location != null) {
-            return Code.GETGPS.toString() + "_" + location.getLatitude() + ";" + location.getLongitude();
-        }
-        else {
-            return "no location data";
+                new CodeGetGps(context, number);
+                break;
         }
     }
 
     private void proceedWithAnswer(String answer){
         switch (retrieveCodeFromAnswer(answer)){
             case GET:
-                displayLocation(retrieveCidFromAnswer(answer),
-                        retrieveLacFromAnswer(answer),
-                        retrieveMccFromAnswer(answer),
-                        retrieveMncFromAnswer(answer));
+                new AnsGet(context, number, answer);
                 break;
             case GETGPS:
-                displayLocation(retrieveLatFromAnswer(answer),
-                        retrieveLonFromAnswer(answer));
-                break;
-            default:
+                new AnsGetGps(context, number, answer);
                 break;
         }
     }
 
     private Code retrieveCodeFromAnswer(String answer){
-        String[] parts = answer.split("_");
+        String[] parts = answer.split(SmsBuilder.PART_SEPARATOR);
         return Code.fromString(parts[1]);
-    }
-
-    private int retrieveCidFromAnswer(String answer){
-        String[] parts = answer.split("_");
-        return Integer.parseInt(parts[2].split(";")[0]);
-    }
-
-    private int retrieveLacFromAnswer(String answer){
-        String[] parts = answer.split("_");
-        return Integer.parseInt(parts[2].split(";")[1]);
-    }
-
-    private int retrieveMccFromAnswer(String answer){
-        String[] parts = answer.split("_");
-        return Integer.parseInt(parts[2].split(";")[2]);
-    }
-
-    private int retrieveMncFromAnswer(String answer){
-        String[] parts = answer.split("_");
-        return Integer.parseInt(parts[2].split(";")[3]);
-    }
-
-    private float retrieveLatFromAnswer(String answer){
-        String[] parts = answer.split("_");
-        return Float.parseFloat(parts[2].split(";")[0]);
-    }
-    private float retrieveLonFromAnswer(String answer){
-        String[] parts = answer.split("_");
-        return Float.parseFloat(parts[2].split(";")[1]);
-    }
-
-    private String proceedBtsGetLocation(){
-        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        GsmCellLocation gsmCellLocation = (GsmCellLocation) telephonyManager.getCellLocation();
-        return getCidForCellLocation(gsmCellLocation) + ";"
-                + getLacForCellLocation(gsmCellLocation) + ";"
-                + getMccFromNetworkOperator(telephonyManager.getNetworkOperator()) + ";"
-                + getMncFromNetworkOperator(telephonyManager.getNetworkOperator());
-    }
-
-    private String getCidForCellLocation(GsmCellLocation gsmCellLocation){
-        int cid = gsmCellLocation.getCid() & 0xffff;
-        return String.valueOf(cid);
-    }
-
-    private String getLacForCellLocation(GsmCellLocation gsmCellLocation){
-        int cid = gsmCellLocation.getLac() & 0xffff;
-        return String.valueOf(cid);
-    }
-
-    private String getMccFromNetworkOperator(String networkOperator){
-        return networkOperator.substring(0, 3);
-    }
-
-    private String getMncFromNetworkOperator(String networkOperator){
-        return networkOperator.substring(3);
-    }
-
-    private void sendSMS(String number, String body){
-        SmsManager smsManager = SmsManager.getDefault();
-        smsManager.sendTextMessage(number, null, body, null, null);
-    }
-
-    private void displayLocation(int cid, int lac, int mcc, int mnc){
-        Intent service = new Intent(context, LocationBtsService.class);
-        service.putExtra("cid", cid);
-        service.putExtra("lac", lac);
-        service.putExtra("mcc", mcc);
-        service.putExtra("mnc", mnc);
-        context.startService(service);
-    }
-
-    private void displayLocation(float lat, float lon){
-        Intent service = new Intent(context, LocationService.class);
-        service.putExtra("lat", lat);
-        service.putExtra("lon", lon);
-        context.startService(service);
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-
-        if (android.support.v4.content.ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                android.support.v4.content.ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-
-        if(number == null) {
-            return;
-        }
-
-        locationManager.removeUpdates(this);
-        sendSMS(number,ANSWER_START + Code.GETGPS.toString() + "_" + location.getLatitude() + ";" + location.getLongitude());
-        number = null;
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
     }
 }
