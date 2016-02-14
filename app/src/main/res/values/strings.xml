@@ -7,4 +7,10 @@
     <string name="add_number_dialog_title">Add trusted number</string>
     <string name="ok">ok</string>
     <string name="cancel">cancel</string>
+    <string name="spy_on_me">Spy on me</string>
+    <string name="track_others">Track others</string>
+    <string name="commands">Commands</string>
+    <string name="number_to_track">Number to track</string>
+    <string name="number_to_spy">Number can spy on me</string>
+    <string name="no_location_data">No location data</string>
 </resources>

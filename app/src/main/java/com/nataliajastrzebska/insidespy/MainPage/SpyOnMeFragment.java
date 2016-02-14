@@ -1,5 +1,6 @@
-package com.nataliajastrzebska.insidespy;
+package com.nataliajastrzebska.insidespy.MainPage;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -7,6 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.nataliajastrzebska.insidespy.Contact.Contact;
+import com.nataliajastrzebska.insidespy.Contact.ContactDataSource;
+import com.nataliajastrzebska.insidespy.R;
 
 import java.util.List;
 
@@ -16,25 +21,36 @@ import butterknife.ButterKnife;
 /**
  * Created by nataliajastrzebska on 09/02/16.
  */
-public class TrustedNumberFragment extends Fragment {
+public class SpyOnMeFragment extends Fragment {
 
     @Bind(R.id.listView_contacts)
     ListView listView;
 
     ContactDataSource dataSource;
     ArrayAdapter<Contact> adapter;
+    Context context;
+
+    private void openDataSource() {
+        dataSource = new ContactDataSource(context);
+        dataSource.open();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        this.context = context;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        dataSource = new ContactDataSource(getContext());
-        dataSource.open();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_trusted_numbers, container, false);
+        View view = inflater.inflate(R.layout.fragment_spy_on_me, container, false);
         ButterKnife.bind(view);
 
         listView = (ListView) view.findViewById(R.id.listView_contacts);
@@ -48,19 +64,15 @@ public class TrustedNumberFragment extends Fragment {
         super.onDestroyView();
 
         ButterKnife.unbind(this);
-        dataSource.close();
-    }
-
-    public void addContact(Contact contact) {
-        dataSource.createContact(contact.getNumber());
-
-        adapter.add(contact);
-        adapter.notifyDataSetChanged();
     }
 
     private void setupContactList(){
-        List<Contact> contactList = dataSource.getAllContacts();
+        openDataSource();
+
+        List<Contact> contactList = dataSource.getContactsSpyOnMe();
         adapter = new ArrayAdapter(getContext(), R.layout.contact_list_item, contactList);
         listView.setAdapter(adapter);
+
+        dataSource.close();
     }
 }

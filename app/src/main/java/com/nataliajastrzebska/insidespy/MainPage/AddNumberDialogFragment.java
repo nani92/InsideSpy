@@ -1,7 +1,8 @@
-package com.nataliajastrzebska.insidespy;
+package com.nataliajastrzebska.insidespy.MainPage;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -9,19 +10,23 @@ import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnTextChanged;
 
 import android.support.v4.app.DialogFragment;
 import android.widget.EditText;
+import android.widget.RadioButton;
+
+import com.nataliajastrzebska.insidespy.Contact.Contact;
+import com.nataliajastrzebska.insidespy.R;
 
 /**
  * Created by nataliajastrzebska on 09/02/16.
  */
-public class AddNumberFragment extends DialogFragment{
+public class AddNumberDialogFragment extends DialogFragment{
 
     AddNumberInterface addNumberInterface;
     AlertDialog dialog;
@@ -30,6 +35,10 @@ public class AddNumberFragment extends DialogFragment{
     EditText inputName;
     @Bind(R.id.inputNumber)
     EditText inputNumber;
+    @Bind(R.id.rb_addToSpyOnMe)
+    RadioButton addToSpyOnMe;
+    @Bind(R.id.rb_addToTrackOthers)
+    RadioButton addToTrack;
 
     @Override
     public void onAttach(Activity activity) {
@@ -41,7 +50,7 @@ public class AddNumberFragment extends DialogFragment{
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         LayoutInflater i = getActivity().getLayoutInflater();
-        View view = i.inflate(R.layout.fragment_add_number, null);
+        View view = i.inflate(R.layout.fragment_dialog_add_number, null);
         ButterKnife.bind(this, view);
 
         createAlertDialog(view);
@@ -85,6 +94,12 @@ public class AddNumberFragment extends DialogFragment{
     private void addTrustedNumber() {
         Contact contact = new Contact();
         contact.setNumber(inputNumber.getText().toString());
+        contact.setName(inputName.getText().toString());
+        contact.setType(Contact.Type.TRACK);
+
+        if (addToSpyOnMe.isChecked()) {
+            contact.setType(Contact.Type.SPY);
+        }
 
         addNumberInterface.addedNumber(contact);
     }
@@ -119,6 +134,7 @@ public class AddNumberFragment extends DialogFragment{
     }
 
     public interface AddNumberInterface {
+
         void addedNumber(Contact contact);
     }
 }

@@ -1,4 +1,4 @@
-package com.nataliajastrzebska.insidespy;
+package com.nataliajastrzebska.insidespy.Code;
 
 /**
  * Created by nataliajastrzebska on 31/01/16.
@@ -15,8 +15,8 @@ public enum Code {
                 return "get()";
             case GETGPS:
                 return "getgps()";
-
         }
+
         return "";
     }
 

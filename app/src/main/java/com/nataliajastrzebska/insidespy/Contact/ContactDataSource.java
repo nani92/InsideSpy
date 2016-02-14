@@ -1,11 +1,13 @@
-package com.nataliajastrzebska.insidespy;
+package com.nataliajastrzebska.insidespy.Contact;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,10 +16,14 @@ import java.util.List;
  */
 public class ContactDataSource {
 
-    // Database fields
     private SQLiteDatabase database;
     private ContactSQLiteHelper dbHelper;
-    private String[] allColumns = { ContactSQLiteHelper.COLUMN_ID, ContactSQLiteHelper.COLUMN_NUMBER };
+    private String[] allColumns = {
+            ContactSQLiteHelper.COLUMN_ID,
+            ContactSQLiteHelper.COLUMN_NUMBER,
+            ContactSQLiteHelper.COLUMN_TYPE,
+            ContactSQLiteHelper.COLUMN_NAME
+    };
 
     public ContactDataSource(Context context) {
         dbHelper = new ContactSQLiteHelper(context);
@@ -31,24 +37,34 @@ public class ContactDataSource {
         dbHelper.close();
     }
 
-    public Contact createContact(String number) {
+    public Long createContact(Contact contact) {
         ContentValues values = new ContentValues();
-        values.put(ContactSQLiteHelper.COLUMN_NUMBER, number);
+        values.put(ContactSQLiteHelper.COLUMN_NUMBER, contact.getNumber());
+        values.put(ContactSQLiteHelper.COLUMN_TYPE, contact.getType().toString());
+        values.put(ContactSQLiteHelper.COLUMN_NAME, contact.getName().toString());
         long insertId = database.insert(ContactSQLiteHelper.TABLE_CONTACTS, null,
                 values);
         Cursor cursor = database.query(ContactSQLiteHelper.TABLE_CONTACTS,
                 allColumns, ContactSQLiteHelper.COLUMN_ID + " = " + insertId, null,
                 null, null, null);
         cursor.moveToFirst();
-        Contact newComment = cursorToContact(cursor);
+        Contact newContact = cursorToContact(cursor);
         cursor.close();
-        return newComment;
+        return newContact.getId();
     }
 
-    public void deleteComment(Contact contact) {
+    public Contact getContact(Long id) {
+        for (Contact contact : getAllContacts()) {
+            if (contact.getId() == id) {
+                return contact;
+            }
+        }
+        return null;
+    }
+
+    public void deleteContact(Contact contact) {
         long id = contact.getId();
-        database.delete(ContactSQLiteHelper.TABLE_CONTACTS, ContactSQLiteHelper.COLUMN_ID
-                + " = " + id, null);
+        database.delete(ContactSQLiteHelper.TABLE_CONTACTS, ContactSQLiteHelper.COLUMN_ID + " = " + id, null);
     }
 
     public List<Contact> getAllContacts() {
@@ -63,8 +79,34 @@ public class ContactDataSource {
             contacts.add(contact);
             cursor.moveToNext();
         }
-        // make sure to close the cursor
+
         cursor.close();
+        return contacts;
+    }
+
+    public List<Contact> getContactsSpyOnMe() {
+        List<Contact> contacts = new ArrayList<Contact>();
+
+        for(Contact contact : getAllContacts()) {
+
+            if (contact.getType() == Contact.Type.SPY) {
+                contacts.add(contact);
+            }
+        }
+
+        return contacts;
+    }
+
+    public List<Contact> getContactsToTrack() {
+        List<Contact> contacts = new ArrayList<Contact>();
+
+        for(Contact contact : getAllContacts()) {
+
+            if (contact.getType() == Contact.Type.TRACK) {
+                contacts.add(contact);
+            }
+        }
+
         return contacts;
     }
 
@@ -72,6 +114,8 @@ public class ContactDataSource {
         Contact contact = new Contact();
         contact.setId(cursor.getLong(0));
         contact.setNumber(cursor.getString(1));
+        contact.setType(Contact.Type.fromString(cursor.getString(2)));
+        contact.setName(cursor.getString(3));
         return contact;
     }
 }

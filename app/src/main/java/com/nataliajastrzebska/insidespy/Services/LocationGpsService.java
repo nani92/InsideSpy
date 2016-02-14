@@ -1,11 +1,13 @@
-package com.nataliajastrzebska.insidespy;
+package com.nataliajastrzebska.insidespy.Services;
 
 import android.app.Service;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.IBinder;
 
-public class LocationService extends Service {
+import com.nataliajastrzebska.insidespy.Code.CodeGetGps;
+
+public class LocationGpsService extends Service {
     private float lat, lon;
 
     @Override
@@ -24,8 +26,8 @@ public class LocationService extends Service {
     }
 
     private void getLocationVariables(Intent intent) {
-        lat = intent.getExtras().getFloat("lat");
-        lon = intent.getExtras().getFloat("lon");
+        lat = intent.getExtras().getFloat(CodeGetGps.EXTRA_LAT);
+        lon = intent.getExtras().getFloat(CodeGetGps.EXTRA_LON);
     }
 
     private String getUrl(){
