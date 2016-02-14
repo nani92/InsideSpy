@@ -64,7 +64,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
     private void populateAllowedToSpyNumbersList() {
         contactDataSource = new ContactDataSource(context);
         contactDataSource.open();
-        contactList = contactDataSource.getAllContacts();
+        contactList = contactDataSource.getContactsSpyOnMe();
         contactDataSource.close();
     }
 
