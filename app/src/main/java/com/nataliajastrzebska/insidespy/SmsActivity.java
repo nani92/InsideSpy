@@ -1,13 +1,21 @@
 package com.nataliajastrzebska.insidespy;
 
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import com.nataliajastrzebska.insidespy.Contact.Contact;
+import com.nataliajastrzebska.insidespy.Contact.ContactDataSource;
+
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SmsActivity extends AppCompatActivity implements AddNumberFragment.AddNumberInterface {
+public class SmsActivity extends AppCompatActivity implements AddNumberDialogFragment.AddNumberInterface {
 
-    TrustedNumberFragment trustedNumberFragment;
+    MainPagerAdapter mainPagerAdapter;
+
+    @Bind(R.id.vpPager)
+    ViewPager viewPager;
 
     @Override
     public void onStart() {
@@ -20,8 +28,8 @@ public class SmsActivity extends AppCompatActivity implements AddNumberFragment.
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        trustedNumberFragment = new TrustedNumberFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.containerTrustedNumber, trustedNumberFragment).commit();
+        mainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), this);
+        viewPager.setAdapter(mainPagerAdapter);
     }
 
     @Override
@@ -38,12 +46,17 @@ public class SmsActivity extends AppCompatActivity implements AddNumberFragment.
 
     @OnClick(R.id.fab_add)
     public void onFabAddClicked() {
-        AddNumberFragment addNumberFragment = new AddNumberFragment();
+        AddNumberDialogFragment addNumberFragment = new AddNumberDialogFragment();
         addNumberFragment.show(getSupportFragmentManager(),"");
     }
 
     @Override
     public void addedNumber(Contact contact) {
-        trustedNumberFragment.addContact(contact);
+        ContactDataSource contactDataSource = new ContactDataSource(this);
+        contactDataSource.open();
+        contactDataSource.createContact(contact);
+        contactDataSource.close();
+
+        mainPagerAdapter.notifyDataSetChanged();
     }
 }

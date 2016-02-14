@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.telephony.SmsManager;
@@ -16,10 +17,13 @@ import android.telephony.SmsMessage;
 import android.telephony.TelephonyManager;
 import android.telephony.gsm.GsmCellLocation;
 
+import com.nataliajastrzebska.insidespy.Contact.Contact;
+import com.nataliajastrzebska.insidespy.Contact.ContactDataSource;
+
 import java.util.List;
 
 
-public class SmsBroadcastReceiver extends BroadcastReceiver {
+public class SmsBroadcastReceiver extends BroadcastReceiver implements LocationListener {
 
     public static final String SMS_BUNDLE = "pdus";
     String CODE_START = "spy_";
@@ -28,6 +32,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
     List<Contact> contactList;
 
     Context context;
+    String number;
 
     public void onReceive(Context context, Intent intent) {
         this.context = context;
@@ -40,7 +45,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                 SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) sms[i]);
 
                 String smsBody = smsMessage.getMessageBody().toString();
-                String number = smsMessage.getOriginatingAddress();
+                number = smsMessage.getOriginatingAddress();
 
                 if(isNumberAllowedToSpy(number) && isMessageCode(smsBody)){
                     String answer = ANSWER_START + proceedWithRequestCodeToGetAnswerContent(Code.fromString(smsBody.substring(4)));
@@ -93,15 +98,17 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
         }
     }
 
+    LocationManager locationManager;
     private String proceedGetLocation() {
 
-        LocationManager locationManager = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
+        locationManager = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
 
         if (android.support.v4.content.ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 android.support.v4.content.ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return null;
         }
         Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
         if (location != null) {
             return Code.GETGPS.toString() + "_" + location.getLatitude() + ";" + location.getLongitude();
@@ -208,5 +215,37 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
         service.putExtra("lat", lat);
         service.putExtra("lon", lon);
         context.startService(service);
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+        if (android.support.v4.content.ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                android.support.v4.content.ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+        if(number == null) {
+            return;
+        }
+
+        locationManager.removeUpdates(this);
+        sendSMS(number,ANSWER_START + Code.GETGPS.toString() + "_" + location.getLatitude() + ";" + location.getLongitude());
+        number = null;
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 }

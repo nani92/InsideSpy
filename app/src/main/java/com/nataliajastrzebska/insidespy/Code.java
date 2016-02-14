@@ -15,8 +15,8 @@ public enum Code {
                 return "get()";
             case GETGPS:
                 return "getgps()";
-
         }
+
         return "";
     }
 

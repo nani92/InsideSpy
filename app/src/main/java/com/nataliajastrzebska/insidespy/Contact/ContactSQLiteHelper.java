@@ -1,4 +1,4 @@
-package com.nataliajastrzebska.insidespy;
+package com.nataliajastrzebska.insidespy.Contact;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,15 +12,19 @@ public class ContactSQLiteHelper extends SQLiteOpenHelper {
     public static final String TABLE_CONTACTS = "contacts";
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_NUMBER = "number";
+    public static final String COLUMN_TYPE = "type";
+    public static final String COLUMN_NAME = "name";
 
     private static final String DATABASE_NAME = "comntacts.db";
     private static final int DATABASE_VERSION = 1;
 
     // Database creation sql statement
     private static final String DATABASE_CREATE = "create table "
-            + TABLE_CONTACTS + "(" + COLUMN_ID
-            + " integer primary key autoincrement,"
-            + COLUMN_NUMBER +" text not null);";
+            + TABLE_CONTACTS + "("
+            + COLUMN_ID + " integer primary key autoincrement,"
+            + COLUMN_NUMBER + " text not null,"
+            + COLUMN_TYPE + " text not null,"
+            + COLUMN_NAME + " text not null);";
 
     public ContactSQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
