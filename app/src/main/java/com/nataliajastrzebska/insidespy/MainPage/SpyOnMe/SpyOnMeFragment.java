@@ -1,4 +1,4 @@
-package com.nataliajastrzebska.insidespy.MainPage;
+package com.nataliajastrzebska.insidespy.MainPage.SpyOnMe;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -21,18 +21,19 @@ import butterknife.ButterKnife;
 /**
  * Created by nataliajastrzebska on 09/02/16.
  */
-public class SpyOnMeFragment extends Fragment {
+public class SpyOnMeFragment extends Fragment implements SpyOnMeListViewAdapter.OnRemoveItemClick{
 
     @Bind(R.id.listView_contacts)
     ListView listView;
 
-    ContactDataSource dataSource;
-    ArrayAdapter<Contact> adapter;
-    Context context;
+    private ContactDataSource dataSource;
+    private SpyOnMeListViewAdapter adapter;
+    private Context context;
+    private List<Contact> contactList;
 
     private void openDataSource() {
-        dataSource = new ContactDataSource(context);
-        dataSource.open();
+        this.dataSource = new ContactDataSource(context);
+        this.dataSource.open();
     }
 
     @Override
@@ -51,9 +52,8 @@ public class SpyOnMeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_spy_on_me, container, false);
-        ButterKnife.bind(view);
+        ButterKnife.bind(this, view);
 
-        listView = (ListView) view.findViewById(R.id.listView_contacts);
         setupContactList();
 
         return view;
@@ -69,10 +69,21 @@ public class SpyOnMeFragment extends Fragment {
     private void setupContactList(){
         openDataSource();
 
-        List<Contact> contactList = dataSource.getContactsSpyOnMe();
-        adapter = new ArrayAdapter(getContext(), R.layout.contact_list_item, contactList);
-        listView.setAdapter(adapter);
+        this.contactList = dataSource.getContactsSpyOnMe();
+        this.adapter = new SpyOnMeListViewAdapter(context, contactList, R.layout.contact_list_item2);
+        this.adapter.setOnRemoveItemClick(this);
+        this.listView.setAdapter(adapter);
 
-        dataSource.close();
+        this.dataSource.close();
+    }
+
+    @Override
+    public void onRemoveClicked(int position) {
+        openDataSource();
+        dataSource.deleteContact(this.contactList.get(position));
+        this.dataSource.close();
+
+        this.contactList.remove(position);
+        this.adapter.notifyDataSetChanged();
     }
 }
