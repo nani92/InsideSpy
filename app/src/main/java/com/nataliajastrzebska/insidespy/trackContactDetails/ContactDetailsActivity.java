@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -39,7 +38,7 @@ public class ContactDetailsActivity extends AppCompatActivity implements Adapter
     };
 
     @Bind(R.id.contactDetailsName)
-    TextView tv_contactName;
+    TextView contactDetailsContactName;
     @Bind(R.id.listViewSms)
     ListView listView;
     @Bind(R.id.removeTrackContact)
@@ -57,7 +56,7 @@ public class ContactDetailsActivity extends AppCompatActivity implements Adapter
         ButterKnife.bind(this);
 
         setupContact();
-        tv_contactName.setText(contact.getName().toString());
+        contactDetailsContactName.setText(contact.getName().toString());
 
         populateSMSList();
 

@@ -13,14 +13,14 @@
 
         <TextView
             android:id="@+id/contactDetailsName"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.8"
-            android:gravity="center"
+            android:gravity="start"
             android:textSize="30sp" />
 
         <ImageView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.2"
             android:id="@+id/removeTrackContact"
@@ -30,7 +30,7 @@
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/listViewSms"/>
 
 </LinearLayout>

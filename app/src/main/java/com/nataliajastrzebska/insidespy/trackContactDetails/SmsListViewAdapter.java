@@ -16,32 +16,32 @@ import butterknife.ButterKnife;
  */
 public class SmsListViewAdapter extends ArrayAdapter<Sms> {
 
-    @Bind(R.id.smsBody)
-    TextView smsBody;
-    @Bind(R.id.smsDate)
-    TextView smsDate;
+    @Bind(R.id.smsItemBody) TextView smsBody;
+    @Bind(R.id.smsItemDate) TextView smsDate;
 
     private Context context;
-    private List<Sms> smses;
+    private List<Sms> smsList;
 
-    public SmsListViewAdapter(Context context, List<Sms> smses, int resources) {
-        super(context, resources, smses);
+    public SmsListViewAdapter(Context context, List<Sms> smsList, int resources) {
+        super(context, resources, smsList);
 
         this.context = context;
-        this.smses = smses;
+        this.smsList = smsList;
     }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = inflater.inflate(R.layout.list_item_track_others_contact, parent, false);
+        convertView = LayoutInflater.from(context).inflate(R.layout.list_item_sms, parent, false);
         ButterKnife.bind(this, convertView);
 
-        smsBody.setText(this.smses.get(position).getBody());
-        smsDate.setText(this.smses.get(position).getDate());
+        smsBody.setText(smsList.get(position).getBody());
+        smsDate.setText(smsList.get(position).getFormatDate());
 
         return convertView;
     }
 
-
+    @Override
+    public int getCount() {
+        return smsList.size();
+    }
 }

@@ -1,5 +1,11 @@
 package com.nataliajastrzebska.insidespy.trackContactDetails;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.logging.SimpleFormatter;
+
 /**
  * Created by nataliajastrzebska on 17/02/16.
  */
@@ -22,6 +28,14 @@ public class Sms {
 
     public String getDate() {
         return date;
+    }
+
+    public String getFormatDate() {
+        Date date = new Date();
+        date.setTime(Long.parseLong(this.date));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+
+        return dateFormat.format(date);
     }
 
     public void setDate(String date) {
