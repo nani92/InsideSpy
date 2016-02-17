@@ -1,4 +1,4 @@
-package com.nataliajastrzebska.insidespy.MainPage.TrackOthers;
+package com.nataliajastrzebska.insidespy.mainpage.TrackOthers;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nataliajastrzebska.insidespy.Contact.Contact;
+import com.nataliajastrzebska.insidespy.contact.Contact;
 import com.nataliajastrzebska.insidespy.R;
 
 import java.util.List;

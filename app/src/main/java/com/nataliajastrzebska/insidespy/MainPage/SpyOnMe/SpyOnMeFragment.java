@@ -1,4 +1,4 @@
-package com.nataliajastrzebska.insidespy.MainPage.SpyOnMe;
+package com.nataliajastrzebska.insidespy.mainpage.SpyOnMe;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.nataliajastrzebska.insidespy.Contact.Contact;
-import com.nataliajastrzebska.insidespy.Contact.ContactDataSource;
+import com.nataliajastrzebska.insidespy.contact.Contact;
+import com.nataliajastrzebska.insidespy.contact.ContactDataSource;
 import com.nataliajastrzebska.insidespy.R;
 
 import java.util.List;

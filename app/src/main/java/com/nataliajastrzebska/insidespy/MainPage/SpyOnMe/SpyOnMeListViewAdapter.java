@@ -1,4 +1,4 @@
-package com.nataliajastrzebska.insidespy.MainPage.SpyOnMe;
+package com.nataliajastrzebska.insidespy.mainpage.SpyOnMe;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.nataliajastrzebska.insidespy.Contact.Contact;
+import com.nataliajastrzebska.insidespy.contact.Contact;
 import com.nataliajastrzebska.insidespy.R;
 import java.util.List;
 import butterknife.Bind;

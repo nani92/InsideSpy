@@ -2,7 +2,7 @@ package com.nataliajastrzebska.insidespy.helpers;
 
 import android.telephony.SmsManager;
 
-import com.nataliajastrzebska.insidespy.Code.Code;
+import com.nataliajastrzebska.insidespy.codes.Code;
 
 /**
  * Created by nataliajastrzebska on 14/02/16.

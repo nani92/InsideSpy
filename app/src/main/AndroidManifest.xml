@@ -15,14 +15,14 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-        <activity android:name=".MainPage.MainActivity" >
+        <activity android:name=".mainpage.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ContactDetailsActivity" >
+        <activity android:name=".trackContactDetails.ContactDetailsActivity" >
         </activity>
 
         <receiver
@@ -40,7 +40,7 @@
         </receiver>
 
         <service
-            android:name=".Services.LocationGpsService"
+            android:name=".services.LocationGpsService"
             android:enabled="true"
             android:exported="true" />
 

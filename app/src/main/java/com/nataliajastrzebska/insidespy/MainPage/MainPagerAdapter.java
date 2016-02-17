@@ -1,12 +1,12 @@
-package com.nataliajastrzebska.insidespy.MainPage;
+package com.nataliajastrzebska.insidespy.mainpage;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.nataliajastrzebska.insidespy.MainPage.SpyOnMe.SpyOnMeFragment;
-import com.nataliajastrzebska.insidespy.MainPage.TrackOthers.TrackOthersFragment;
+import com.nataliajastrzebska.insidespy.mainpage.SpyOnMe.SpyOnMeFragment;
+import com.nataliajastrzebska.insidespy.mainpage.TrackOthers.TrackOthersFragment;
 import com.nataliajastrzebska.insidespy.R;
 
 /**

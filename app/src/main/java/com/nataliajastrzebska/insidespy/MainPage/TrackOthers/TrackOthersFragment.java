@@ -1,4 +1,4 @@
-package com.nataliajastrzebska.insidespy.MainPage.TrackOthers;
+package com.nataliajastrzebska.insidespy.mainpage.TrackOthers;
 
 
 import android.content.Context;
@@ -11,16 +11,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import com.nataliajastrzebska.insidespy.Code.Code;
-import com.nataliajastrzebska.insidespy.Contact.Contact;
-import com.nataliajastrzebska.insidespy.Contact.ContactDataSource;
-import com.nataliajastrzebska.insidespy.ContactDetailsActivity;
+import com.nataliajastrzebska.insidespy.codes.Code;
+import com.nataliajastrzebska.insidespy.contact.Contact;
+import com.nataliajastrzebska.insidespy.contact.ContactDataSource;
+import com.nataliajastrzebska.insidespy.trackContactDetails.ContactDetailsActivity;
 import com.nataliajastrzebska.insidespy.R;
 import com.nataliajastrzebska.insidespy.helpers.SmsBuilder;
-
 import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
