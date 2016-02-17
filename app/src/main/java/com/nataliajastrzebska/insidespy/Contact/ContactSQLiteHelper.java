@@ -1,4 +1,4 @@
-package com.nataliajastrzebska.insidespy.Contact;
+package com.nataliajastrzebska.insidespy.contact;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

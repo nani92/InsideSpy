@@ -10,13 +10,13 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
-import com.nataliajastrzebska.insidespy.Code.AnsGet;
-import com.nataliajastrzebska.insidespy.Code.AnsGetGps;
-import com.nataliajastrzebska.insidespy.Code.Code;
-import com.nataliajastrzebska.insidespy.Code.CodeGet;
-import com.nataliajastrzebska.insidespy.Code.CodeGetGps;
-import com.nataliajastrzebska.insidespy.Contact.Contact;
-import com.nataliajastrzebska.insidespy.Contact.ContactDataSource;
+import com.nataliajastrzebska.insidespy.codes.AnsGet;
+import com.nataliajastrzebska.insidespy.codes.AnsGetGps;
+import com.nataliajastrzebska.insidespy.codes.Code;
+import com.nataliajastrzebska.insidespy.codes.CodeGet;
+import com.nataliajastrzebska.insidespy.codes.CodeGetGps;
+import com.nataliajastrzebska.insidespy.contact.Contact;
+import com.nataliajastrzebska.insidespy.contact.ContactDataSource;
 import com.nataliajastrzebska.insidespy.helpers.SmsBuilder;
 
 import java.util.List;
@@ -64,7 +64,9 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
     private void populateAllowedToSpyNumbersList() {
         contactDataSource = new ContactDataSource(context);
         contactDataSource.open();
-        contactList = contactDataSource.getAllContacts();
+
+        contactList = contactDataSource.getContactsSpyOnMe();
+
         contactDataSource.close();
     }
 

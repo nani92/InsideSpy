@@ -1,9 +1,9 @@
-package com.nataliajastrzebska.insidespy.Code;
+package com.nataliajastrzebska.insidespy.codes;
 
 import android.content.Context;
 import android.content.Intent;
 
-import com.nataliajastrzebska.insidespy.Services.LocationBtsService;
+import com.nataliajastrzebska.insidespy.services.LocationBtsService;
 import com.nataliajastrzebska.insidespy.helpers.SmsBuilder;
 
 /**

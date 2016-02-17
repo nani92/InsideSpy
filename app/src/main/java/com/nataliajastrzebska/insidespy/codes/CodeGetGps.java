@@ -1,4 +1,4 @@
-package com.nataliajastrzebska.insidespy.Code;
+package com.nataliajastrzebska.insidespy.codes;
 
 import android.Manifest;
 import android.content.Context;

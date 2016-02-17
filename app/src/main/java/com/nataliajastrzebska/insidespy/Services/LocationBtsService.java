@@ -1,10 +1,10 @@
-package com.nataliajastrzebska.insidespy.Services;
+package com.nataliajastrzebska.insidespy.services;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
-import com.nataliajastrzebska.insidespy.Code.CodeGet;
+import com.nataliajastrzebska.insidespy.codes.CodeGet;
 
 /**
  * Created by nataliajastrzebska on 31/01/16.

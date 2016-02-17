@@ -1,11 +1,11 @@
-package com.nataliajastrzebska.insidespy.Services;
+package com.nataliajastrzebska.insidespy.services;
 
 import android.app.Service;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.IBinder;
 
-import com.nataliajastrzebska.insidespy.Code.CodeGetGps;
+import com.nataliajastrzebska.insidespy.codes.CodeGetGps;
 
 public class LocationGpsService extends Service {
     private float lat, lon;

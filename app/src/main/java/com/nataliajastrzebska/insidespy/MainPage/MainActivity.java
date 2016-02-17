@@ -1,11 +1,11 @@
-package com.nataliajastrzebska.insidespy.MainPage;
+package com.nataliajastrzebska.insidespy.mainpage;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
-import com.nataliajastrzebska.insidespy.Contact.Contact;
-import com.nataliajastrzebska.insidespy.Contact.ContactDataSource;
+import com.nataliajastrzebska.insidespy.contact.Contact;
+import com.nataliajastrzebska.insidespy.contact.ContactDataSource;
 import com.nataliajastrzebska.insidespy.R;
 
 import butterknife.Bind;

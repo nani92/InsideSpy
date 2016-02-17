@@ -6,10 +6,9 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.telephony.SmsManager;
 import android.widget.RemoteViews;
 
-import com.nataliajastrzebska.insidespy.Code.Code;
+import com.nataliajastrzebska.insidespy.codes.Code;
 import com.nataliajastrzebska.insidespy.helpers.SmsBuilder;
 
 /**
@@ -27,7 +26,7 @@ public class SendGetGpsWidget extends AppWidgetProvider {
 
         for (int widgetId : allWidgetIds) {
             RemoteViews remoteView = new RemoteViews(context.getPackageName(),
-                    R.layout.send_get_gps_widget);
+                    R.layout.widget_send_get_gps);
 
             Intent intent = new Intent(context, SendGetGpsWidget.class);
             intent.setAction(ACTION);

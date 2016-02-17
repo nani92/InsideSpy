@@ -13,13 +13,23 @@
         <item name="android:textSize">30sp</item>
     </style>
 
-    <style name="AppThem.Contact" parent="android:TextAppearance">
+    <style name="AppTheme.ContactName" parent="android:TextAppearance">
         <item name="android:textSize">25sp</item>
     </style>
+
+    <style name="AppTheme.ContactNumber" parent="android:TextAppearance">
+        <item name="android:textSize">17sp</item>
+    </style>
+
+    <style name="AppTheme.SmsBody" parent="android:TextAppearance">
+        <item name="android:textSize">20sp</item>
+    </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
