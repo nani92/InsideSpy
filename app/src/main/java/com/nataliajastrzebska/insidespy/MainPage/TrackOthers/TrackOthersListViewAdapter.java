@@ -1,4 +1,4 @@
-package com.nataliajastrzebska.insidespy.MainPage.SpyOnMe;
+package com.nataliajastrzebska.insidespy.MainPage.TrackOthers;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,22 +7,25 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.nataliajastrzebska.insidespy.Contact.Contact;
 import com.nataliajastrzebska.insidespy.R;
+
 import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
  * Created by nataliajastrzebska on 14/02/16.
  */
-public class SpyOnMeListViewAdapter extends ArrayAdapter<Contact> {
+public class TrackOthersListViewAdapter extends ArrayAdapter<Contact> {
 
     private Context context;
     private List<Contact> contacts;
-    private OnRemoveItemClick onRemoveItemClick;
+    private OnSendMessageClick onSendMessageClick;
 
-    public SpyOnMeListViewAdapter(Context context, List<Contact> contacts, int resources) {
+    public TrackOthersListViewAdapter(Context context, List<Contact> contacts, int resources) {
         super(context, resources, contacts);
 
         this.context = context;
@@ -34,7 +37,7 @@ public class SpyOnMeListViewAdapter extends ArrayAdapter<Contact> {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.list_item_spy_on_me_contact, parent, false);
+            convertView = inflater.inflate(R.layout.list_item_track_others_contact, parent, false);
             convertView.setTag(new ViewHolder(convertView));
         }
 
@@ -47,7 +50,7 @@ public class SpyOnMeListViewAdapter extends ArrayAdapter<Contact> {
 
             @Override
             public void onClick(View v) {
-                onRemoveItemClick.onRemoveClicked(position);
+                onSendMessageClick.onSendClicked(position);
             }
         });
 
@@ -55,11 +58,11 @@ public class SpyOnMeListViewAdapter extends ArrayAdapter<Contact> {
     }
 
     public static class ViewHolder {
-        @Bind(R.id.spyOnMeContactRemove)
+        @Bind(R.id.trackOthersSendMessage)
         ImageView contactRemove;
-        @Bind(R.id.spyOnMeContactName)
+        @Bind(R.id.trackOthersContactName)
         TextView contactName;
-        @Bind(R.id.spyOnMeContactNumber)
+        @Bind(R.id.trackOthersContactNumber)
         TextView contactNumber;
 
         ViewHolder(View view) {
@@ -67,11 +70,11 @@ public class SpyOnMeListViewAdapter extends ArrayAdapter<Contact> {
         }
     }
 
-    public void setOnRemoveItemClick(OnRemoveItemClick onRemoveItemClick) {
-        this.onRemoveItemClick = onRemoveItemClick;
+    public void setOnSendMessageClick(OnSendMessageClick onSendMessageClick) {
+        this.onSendMessageClick = onSendMessageClick;
     }
 
-    public interface OnRemoveItemClick {
-        void onRemoveClicked(int position);
+    public interface OnSendMessageClick {
+        void onSendClicked(int position);
     }
 }

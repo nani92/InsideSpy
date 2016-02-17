@@ -11,13 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:id="@+id/contactDetails_name"
+        android:id="@+id/contactDetailsName"
         android:textSize="30sp"/>
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/listView_sms">
-    </ListView>
+        android:id="@+id/listViewSms"/>
 
 </LinearLayout>

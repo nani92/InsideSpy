@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.nataliajastrzebska.insidespy.Code.CodeGet;
 import com.nataliajastrzebska.insidespy.Code.CodeGetGps;
 import com.nataliajastrzebska.insidespy.Contact.Contact;
 import com.nataliajastrzebska.insidespy.Contact.ContactDataSource;
@@ -33,14 +32,16 @@ public class ContactDetailsActivity extends AppCompatActivity implements Adapter
     private final String SMS_COLUMN_DATE = "date";
     private final String SMS_COLUMN_MESSAGE = "body";
 
+    public static final String CONTACT_ID = "id";
+
     private final String[] SMS_COLUMNS = new String[] {
             SMS_COLUMN_NUMBER, SMS_COLUMN_DATE, SMS_COLUMN_MESSAGE
     };
 
-    @Bind(R.id.contactDetails_name)
+    @Bind(R.id.contactDetailsName)
     TextView tv_contactName;
 
-    @Bind(R.id.listView_sms)
+    @Bind(R.id.listViewSms)
     ListView listView;
 
     Contact contact;
@@ -84,7 +85,7 @@ public class ContactDetailsActivity extends AppCompatActivity implements Adapter
     }
 
     private void setupContact() {
-        Long id = getIntent().getExtras().getLong("id");
+        Long id = getIntent().getExtras().getLong(CONTACT_ID);
         ContactDataSource dataSource = new ContactDataSource(this);
         dataSource.open();
         this.contact = dataSource.getContact(id);

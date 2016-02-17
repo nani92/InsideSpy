@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.nataliajastrzebska.insidespy.Contact.Contact;
@@ -23,7 +22,7 @@ import butterknife.ButterKnife;
  */
 public class SpyOnMeFragment extends Fragment implements SpyOnMeListViewAdapter.OnRemoveItemClick{
 
-    @Bind(R.id.listView_contacts)
+    @Bind(R.id.listViewContactsSpyOnMe)
     ListView listView;
 
     private ContactDataSource dataSource;
@@ -70,7 +69,7 @@ public class SpyOnMeFragment extends Fragment implements SpyOnMeListViewAdapter.
         openDataSource();
 
         this.contactList = dataSource.getContactsSpyOnMe();
-        this.adapter = new SpyOnMeListViewAdapter(context, contactList, R.layout.contact_list_item2);
+        this.adapter = new SpyOnMeListViewAdapter(context, contactList, R.layout.list_item_spy_on_me_contact);
         this.adapter.setOnRemoveItemClick(this);
         this.listView.setAdapter(adapter);
 

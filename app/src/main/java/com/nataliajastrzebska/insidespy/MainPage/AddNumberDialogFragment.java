@@ -2,7 +2,6 @@ package com.nataliajastrzebska.insidespy.MainPage;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -10,16 +9,12 @@ import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
 import butterknife.OnTextChanged;
-
 import android.support.v4.app.DialogFragment;
 import android.widget.EditText;
 import android.widget.RadioButton;
-
 import com.nataliajastrzebska.insidespy.Contact.Contact;
 import com.nataliajastrzebska.insidespy.R;
 
