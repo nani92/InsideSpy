@@ -9,15 +9,26 @@ import android.os.Vibrator;
 public class CodeVibrate {
 
     private Context context;
-    private long defaultVibrationTime = 100;
+    private long defaultVibrationTime = 300;
 
     public CodeVibrate(Context context) {
         this.context = context;
+
         vibrate(this.defaultVibrationTime);
+    }
+
+    public CodeVibrate(long customTime, Context context) {
+        this.context = context;
+
+        vibrate(customTime);
     }
 
     private void vibrate(long time) {
         Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         vibrator.vibrate(time);
+    }
+
+    public static long getCustomVibrationTimeFromSms(String sms) {
+        return Long.parseLong(sms.substring(sms.indexOf("(")+1, sms.lastIndexOf(")")));
     }
 }

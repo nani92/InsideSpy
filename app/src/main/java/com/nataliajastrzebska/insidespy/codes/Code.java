@@ -7,6 +7,7 @@ public enum Code {
     GET,
     GETGPS,
     VIBRATE,
+    VIBRATE_ARGS,
     UNKNOWN;
 
     final static String CODE_GET = "get()";
@@ -34,6 +35,8 @@ public enum Code {
             return GETGPS;
         if (string.equals(CODE_VIBRATE))
             return VIBRATE;
+        if (string.contains(CODE_VIBRATE.substring(0, CODE_VIBRATE.length() - 1)))
+            return VIBRATE_ARGS;
         return UNKNOWN;
     }
 }
