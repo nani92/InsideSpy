@@ -6,25 +6,37 @@ package com.nataliajastrzebska.insidespy.codes;
 public enum Code {
     GET,
     GETGPS,
+    VIBRATE,
+    VIBRATE_ARGS,
     UNKNOWN;
+
+    final static String CODE_GET = "get()";
+    final static String CODE_GETGPS = "getgps()";
+    final static String CODE_VIBRATE = "vibrate()";
 
     @Override
     public String toString() {
         switch (this) {
             case GET:
-                return "get()";
+                return CODE_GET;
             case GETGPS:
-                return "getgps()";
+                return CODE_GETGPS;
+            case VIBRATE:
+                return CODE_VIBRATE;
         }
 
         return "";
     }
 
-    public static Code fromString(String string){
-        if(string.equals("get()"))
+    public static Code fromString(String string) {
+        if (string.equals(CODE_GET))
             return GET;
-        if(string.equals("getgps()"))
+        if (string.equals(CODE_GETGPS))
             return GETGPS;
+        if (string.equals(CODE_VIBRATE))
+            return VIBRATE;
+        if (string.contains(CODE_VIBRATE.substring(0, CODE_VIBRATE.length() - 1)))
+            return VIBRATE_ARGS;
         return UNKNOWN;
     }
 }

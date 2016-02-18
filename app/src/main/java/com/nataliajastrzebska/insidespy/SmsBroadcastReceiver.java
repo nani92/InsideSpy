@@ -15,6 +15,7 @@ import com.nataliajastrzebska.insidespy.codes.AnsGetGps;
 import com.nataliajastrzebska.insidespy.codes.Code;
 import com.nataliajastrzebska.insidespy.codes.CodeGet;
 import com.nataliajastrzebska.insidespy.codes.CodeGetGps;
+import com.nataliajastrzebska.insidespy.codes.CodeVibrate;
 import com.nataliajastrzebska.insidespy.contact.Contact;
 import com.nataliajastrzebska.insidespy.contact.ContactDataSource;
 import com.nataliajastrzebska.insidespy.helpers.SmsBuilder;
@@ -26,11 +27,12 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
 
     static final String SMS_BUNDLE = "pdus";
 
-    ContactDataSource contactDataSource;
-    List<Contact> contactList;
+    private ContactDataSource contactDataSource;
+    private List<Contact> contactList;
 
-    Context context;
-    String number;
+    private Context context;
+    private String number;
+    private String smsBody;
 
     public void onReceive(Context context, Intent intent) {
         this.context = context;
@@ -43,11 +45,11 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
             for (int i = 0; i < sms.length; ++i) {
                 SmsMessage smsMessage = getSmsMessageFromBundle(i, intent.getExtras(), sms);
 
-                String smsBody = smsMessage.getMessageBody().toString();
-                number = smsMessage.getOriginatingAddress();
+                this.smsBody = smsMessage.getMessageBody().toString();
+                this.number = smsMessage.getOriginatingAddress();
 
                 if(isNumberAllowedToSpy(number) && isMessageRequestCode(smsBody)){
-                    proceedWithRequestCodeToGetAnswerContent(Code.fromString(smsBody.substring(SmsBuilder.CODE_START.length())), number);
+                    proceedWithRequestCode(Code.fromString(smsBody.substring(SmsBuilder.CODE_START.length())), number);
                 }
                 else if (isMessageAnswer(smsBody)){
                     proceedWithAnswer(smsBody);
@@ -110,13 +112,19 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
         return false;
     }
 
-    private void proceedWithRequestCodeToGetAnswerContent(Code code, String number){
+    private void proceedWithRequestCode(Code code, String number){
         switch (code){
             case GET:
                 new CodeGet(context, number);
                 break;
             case GETGPS:
                 new CodeGetGps(context, number);
+                break;
+            case VIBRATE:
+                new CodeVibrate(context);
+                break;
+            case VIBRATE_ARGS:
+                new CodeVibrate(CodeVibrate.getCustomVibrationTimeFromSms(this.smsBody), context);
                 break;
         }
     }

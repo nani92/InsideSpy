@@ -3,7 +3,6 @@ package com.nataliajastrzebska.insidespy.codes;
 import android.content.Context;
 import android.telephony.TelephonyManager;
 import android.telephony.gsm.GsmCellLocation;
-
 import com.nataliajastrzebska.insidespy.helpers.BtsLocation;
 import com.nataliajastrzebska.insidespy.helpers.SmsBuilder;
 
@@ -11,7 +10,6 @@ import com.nataliajastrzebska.insidespy.helpers.SmsBuilder;
  * Created by nataliajastrzebska on 14/02/16.
  */
 public class CodeGet {
-
 
     public static final String EXTRA_CID = "cid";
     public static final String EXTRA_LAC = "lac";
