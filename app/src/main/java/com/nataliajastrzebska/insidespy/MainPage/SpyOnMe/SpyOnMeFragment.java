@@ -7,8 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
-import com.nataliajastrzebska.insidespy.codes.CodeVibrate;
 import com.nataliajastrzebska.insidespy.contact.Contact;
 import com.nataliajastrzebska.insidespy.contact.ContactDataSource;
 import com.nataliajastrzebska.insidespy.R;
@@ -46,7 +44,6 @@ public class SpyOnMeFragment extends Fragment implements SpyOnMeListViewAdapter.
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override

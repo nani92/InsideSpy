@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.nataliajastrzebska.insidespy.mainpage.Codes.HelpFragment;
 import com.nataliajastrzebska.insidespy.mainpage.SpyOnMe.SpyOnMeFragment;
 import com.nataliajastrzebska.insidespy.mainpage.TrackOthers.TrackOthersFragment;
 import com.nataliajastrzebska.insidespy.R;
@@ -22,25 +23,39 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 
     @Override
     public Fragment getItem(int position) {
+
         if (position == 0) {
             return new SpyOnMeFragment();
         }
 
-        return new TrackOthersFragment();
+        if (position == 1) {
+            return new TrackOthersFragment();
+        }
+
+        return new HelpFragment();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
+
         if (position == 0) {
             return context.getResources().getString(R.string.spy_on_me);
         }
 
-        return context.getResources().getString(R.string.track_others);
+        if (position == 1) {
+            return context.getResources().getString(R.string.track_others);
+        }
+
+        if (position == 2) {
+            return context.getResources().getString(R.string.help);
+        }
+
+        return "";
     }
 
     public int getItemPosition(Object object){

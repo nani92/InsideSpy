@@ -8,7 +8,7 @@ import android.os.IBinder;
 import com.nataliajastrzebska.insidespy.codes.CodeGetGps;
 
 public class LocationGpsService extends Service {
-    private float lat, lon;
+    private float latitude, longitude;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -26,13 +26,13 @@ public class LocationGpsService extends Service {
     }
 
     private void getLocationVariables(Intent intent) {
-        lat = intent.getExtras().getFloat(CodeGetGps.EXTRA_LAT);
-        lon = intent.getExtras().getFloat(CodeGetGps.EXTRA_LON);
+        latitude = intent.getExtras().getFloat(CodeGetGps.EXTRA_LAT);
+        longitude = intent.getExtras().getFloat(CodeGetGps.EXTRA_LON);
     }
 
     private String getUrl(){
         String base = "http://maps.google.com/maps?q=loc:";
-        return base + lat + "," + lon;
+        return base + latitude + "," + longitude;
     }
 
     @Override
