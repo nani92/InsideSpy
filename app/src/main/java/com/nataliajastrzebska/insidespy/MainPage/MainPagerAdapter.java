@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.nataliajastrzebska.insidespy.mainpage.Codes.HelpFragment;
+import com.nataliajastrzebska.insidespy.mainpage.Help.HelpFragment;
 import com.nataliajastrzebska.insidespy.mainpage.SpyOnMe.SpyOnMeFragment;
 import com.nataliajastrzebska.insidespy.mainpage.TrackOthers.TrackOthersFragment;
 import com.nataliajastrzebska.insidespy.R;
