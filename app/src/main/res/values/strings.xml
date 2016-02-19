@@ -9,9 +9,18 @@
     <string name="cancel">cancel</string>
     <string name="spy_on_me">Spy on me</string>
     <string name="track_others">Track others</string>
+    <string name="help">Help</string>
     <string name="commands">Commands</string>
     <string name="number_to_track">Number to track</string>
     <string name="number_to_spy">Number can spy on me</string>
     <string name="no_location_data">No location data</string>
     <string name="sending_sms_code">Sending SMS with code. \nWait for answer</string>
-</resources>
+
+    <string name="help_get">Using this command You can get information about nearest BTS station of phone you texted.</string>
+    <string name="find_out_more">Please see About to find out more information.</string>
+    <string name="no_answer">There is no answer for that command.</string>
+    <string name="help_get_ans">If InsideSpy receive command to get information about nearest BTS, it will produce this answer containing CID, LAC, MCC, MNC and text it.</string>
+    <string name="help_getgps">Using this command You can get information about location of phone you texted.</string>
+    <string name="help_getgps_ans">If InsideSpy receive command to get information about location, it will produce this answer containing latitude and longitude and text it.</string>
+    <string name="help_vibrate">Using this command You can make vibrate phone you texted.</string>
+   </resources>
